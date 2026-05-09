@@ -1,17 +1,675 @@
----
-id: error
-title: This should be the Error UI
----
+import React, { useState } from 'react';
 
-You ended up here because you didn't set the following configuration value:
+export default function GoldWarGame() {
+  // --- OYUN DURUMU (STATE) ---
+  const [resources, setResources] = useState({
+    gold: 120,
+    coal: 56,
+    diamond: 3
+  });
 
-```yaml title="path/to/kratos/config.yml"
-selfservice:
-  flows:
-    error:
-      ui_url: http://my-app.com/error
-```
+  const [message, setMessage] = useState("Madene hoş geldin, kazmaya başla!");
 
-You can set this configuration value using environment variable `SELFSERVICE_FLOWS_ERROR_UI_URL` as well!
+  // --- KAZMA FONKSİYONU ---
+  const handleDig = () => {
+    const chance = Math.random();
+    let newResources = { ...resources };
+    
+    if (chance > 0.9) { // %10 ihtimalle elmas
+      newResources.diamond += 1;
+      setMessage("💎 İnanılmaz! Bir elmas buldun!");
+    } else if (chance > 0.5) { // %40 ihtimalle altın
+      newResources.gold += 5;
+      setMessage("💰 Güzel! Biraz altın kazandın.");
+    } else { // %50 ihtimalle kömür
+      newResources.coal += 10;
+      setMessage("🪨 Sadece kömür çıktı...");
+    }
+    
+    setResources(newResources);
+  };
 
-If you don't know what that means, head over to [User-Facing Error](../self-service/flows/user-facing-errors.md)!
+  return (
+    <div className="max-w-md mx-auto p-4 bg-gray-100 min-h-screen font-sans">
+      <h1 className="text-3xl font-black text-center mb-6 text-yellow-600 drop-shadow-sm">
+        ⛏️ Gold War
+      </h1>
+
+      {/* Kaynak Paneli */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 mb-4 shadow-xl border-b-4 border-stone-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-bold">💰 Altın: <span className="text-yellow-400">{resources.gold}</span></p>
+          <p className="text-xl font-bold">🪨 Kömür: <span className="text-gray-400">{resources.coal}</span></p>
+          <p className="text-xl font-bold">💎 Elmas: <span className="text-cyan-400">{resources.diamond}</span></p>
+        </div>
+        <p className="text-xs mt-4 text-center italic text-stone-400">{message}</p>
+      </div>
+
+      {/* Aksiyon Butonları */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={handleDig}
+          className="bg-yellow-500 hover:bg-yellow-400 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-yellow-700"
+        >
+          ⛏️ Kaz
+        </button>
+        <button className="bg-gray-800 hover:bg-gray-700 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-gray-950">
+          🛒 Market
+        </button>
+        <button className="bg-green-600 hover:bg-green-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-green-800">
+          🚜 Araçlar
+        </button>
+        <button className="bg-red-600 hover:bg-red-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-red-800">
+          👾 Mağara
+        </button>
+      </div>
+
+      {/* Görevler */}
+      <div className="mt-6 bg-purple-100 rounded-2xl p-4 border-l-4 border-purple-500 shadow-sm">
+        <h2 className="font-bold text-lg mb-2 text-purple-800">🎯 Görev Takibi</h2>
+        <ul className="text-sm text-left text-gray-700 space-y-2">
+          <li className="flex items-center">
+            {resources.coal >= 100 ? "✅" : "⬜"} 100 kömür topla ({resources.coal}/100)
+          </li>
+          <li className="flex items-center">
+            {resources.gold >= 500 ? "✅" : "⬜"} 500 altın bul ({resources.gold}/500)
+          </li>
+        </ul>
+      </div>
+
+      {/* Hikaye */}
+      <div className="mt-4 bg-red-50 rounded-2xl p-4 border border-red-200">
+        <h2 className="font-bold text-lg mb-1 text-red-800">🎬 Hikaye</h2>
+        <p className="text-sm text-gray-600">
+          Derinlerde bir sarsıntı hissettin... Görünüşe göre mağara göründüğünden daha büyük.
+        </p>
+      </div>
+    </div>
+  );
+}import React, { useState } from 'react';
+
+export default function GoldWarGame() {
+  // --- OYUN DURUMU (STATE) ---
+  const [resources, setResources] = useState({
+    gold: 120,
+    coal: 56,
+    diamond: 3
+  });
+
+  const [message, setMessage] = useState("Madene hoş geldin, kazmaya başla!");
+
+  // --- KAZMA FONKSİYONU ---
+  const handleDig = () => {
+    const chance = Math.random();
+    let newResources = { ...resources };
+    
+    if (chance > 0.9) { // %10 ihtimalle elmas
+      newResources.diamond += 1;
+      setMessage("💎 İnanılmaz! Bir elmas buldun!");
+    } else if (chance > 0.5) { // %40 ihtimalle altın
+      newResources.gold += 5;
+      setMessage("💰 Güzel! Biraz altın kazandın.");
+    } else { // %50 ihtimalle kömür
+      newResources.coal += 10;
+      setMessage("🪨 Sadece kömür çıktı...");
+    }
+    
+    setResources(newResources);
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-4 bg-gray-100 min-h-screen font-sans">
+      <h1 className="text-3xl font-black text-center mb-6 text-yellow-600 drop-shadow-sm">
+        ⛏️ Gold War
+      </h1>
+
+      {/* Kaynak Paneli */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 mb-4 shadow-xl border-b-4 border-stone-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-bold">💰 Altın: <span className="text-yellow-400">{resources.gold}</span></p>
+          <p className="text-xl font-bold">🪨 Kömür: <span className="text-gray-400">{resources.coal}</span></p>
+          <p className="text-xl font-bold">💎 Elmas: <span className="text-cyan-400">{resources.diamond}</span></p>
+        </div>
+        <p className="text-xs mt-4 text-center italic text-stone-400">{message}</p>
+      </div>
+
+      {/* Aksiyon Butonları */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={handleDig}
+          className="bg-yellow-500 hover:bg-yellow-400 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-yellow-700"
+        >
+          ⛏️ Kaz
+        </button>
+        <button className="bg-gray-800 hover:bg-gray-700 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-gray-950">
+          🛒 Market
+        </button>
+        <button className="bg-green-600 hover:bg-green-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-green-800">
+          🚜 Araçlar
+        </button>
+        <button className="bg-red-600 hover:bg-red-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-red-800">
+          👾 Mağara
+        </button>
+      </div>
+
+      {/* Görevler */}
+      <div className="mt-6 bg-purple-100 rounded-2xl p-4 border-l-4 border-purple-500 shadow-sm">
+        <h2 className="font-bold text-lg mb-2 text-purple-800">🎯 Görev Takibi</h2>
+        <ul className="text-sm text-left text-gray-700 space-y-2">
+          <li className="flex items-center">
+            {resources.coal >= 100 ? "✅" : "⬜"} 100 kömür topla ({resources.coal}/100)
+          </li>
+          <li className="flex items-center">
+            {resources.gold >= 500 ? "✅" : "⬜"} 500 altın bul ({resources.gold}/500)
+          </li>
+        </ul>
+      </div>
+
+      {/* Hikaye */}
+      <div className="mt-4 bg-red-50 rounded-2xl p-4 border border-red-200">
+        <h2 className="font-bold text-lg mb-1 text-red-800">🎬 Hikaye</h2>
+        <p className="text-sm text-gray-600">
+          Derinlerde bir sarsıntı hissettin... Görünüşe göre mağara göründüğünden daha büyük.
+        </p>
+      </div>
+    </div>
+  );
+}import React, { useState } from 'react';
+
+export default function GoldWarGame() {
+  // --- OYUN DURUMU (STATE) ---
+  const [resources, setResources] = useState({
+    gold: 120,
+    coal: 56,
+    diamond: 3
+  });
+
+  const [message, setMessage] = useState("Madene hoş geldin, kazmaya başla!");
+
+  // --- KAZMA FONKSİYONU ---
+  const handleDig = () => {
+    const chance = Math.random();
+    let newResources = { ...resources };
+    
+    if (chance > 0.9) { // %10 ihtimalle elmas
+      newResources.diamond += 1;
+      setMessage("💎 İnanılmaz! Bir elmas buldun!");
+    } else if (chance > 0.5) { // %40 ihtimalle altın
+      newResources.gold += 5;
+      setMessage("💰 Güzel! Biraz altın kazandın.");
+    } else { // %50 ihtimalle kömür
+      newResources.coal += 10;
+      setMessage("🪨 Sadece kömür çıktı...");
+    }
+    
+    setResources(newResources);
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-4 bg-gray-100 min-h-screen font-sans">
+      <h1 className="text-3xl font-black text-center mb-6 text-yellow-600 drop-shadow-sm">
+        ⛏️ Gold War
+      </h1>
+
+      {/* Kaynak Paneli */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 mb-4 shadow-xl border-b-4 border-stone-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-bold">💰 Altın: <span className="text-yellow-400">{resources.gold}</span></p>
+          <p className="text-xl font-bold">🪨 Kömür: <span className="text-gray-400">{resources.coal}</span></p>
+          <p className="text-xl font-bold">💎 Elmas: <span className="text-cyan-400">{resources.diamond}</span></p>
+        </div>
+        <p className="text-xs mt-4 text-center italic text-stone-400">{message}</p>
+      </div>
+
+      {/* Aksiyon Butonları */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={handleDig}
+          className="bg-yellow-500 hover:bg-yellow-400 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-yellow-700"
+        >
+          ⛏️ Kaz
+        </button>
+        <button className="bg-gray-800 hover:bg-gray-700 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-gray-950">
+          🛒 Market
+        </button>
+        <button className="bg-green-600 hover:bg-green-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-green-800">
+          🚜 Araçlar
+        </button>
+        <button className="bg-red-600 hover:bg-red-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-red-800">
+          👾 Mağara
+        </button>
+      </div>
+
+      {/* Görevler */}
+      <div className="mt-6 bg-purple-100 rounded-2xl p-4 border-l-4 border-purple-500 shadow-sm">
+        <h2 className="font-bold text-lg mb-2 text-purple-800">🎯 Görev Takibi</h2>
+        <ul className="text-sm text-left text-gray-700 space-y-2">
+          <li className="flex items-center">
+            {resources.coal >= 100 ? "✅" : "⬜"} 100 kömür topla ({resources.coal}/100)
+          </li>
+          <li className="flex items-center">
+            {resources.gold >= 500 ? "✅" : "⬜"} 500 altın bul ({resources.gold}/500)
+          </li>
+        </ul>
+      </div>
+
+      {/* Hikaye */}
+      <div className="mt-4 bg-red-50 rounded-2xl p-4 border border-red-200">
+        <h2 className="font-bold text-lg mb-1 text-red-800">🎬 Hikaye</h2>
+        <p className="text-sm text-gray-600">
+          Derinlerde bir sarsıntı hissettin... Görünüşe göre mağara göründüğünden daha büyük.
+        </p>
+      </div>
+    </div>
+  );
+}import React, { useState } from 'react';
+
+export default function GoldWarGame() {
+  // --- OYUN DURUMU (STATE) ---
+  const [resources, setResources] = useState({
+    gold: 120,
+    coal: 56,
+    diamond: 3
+  });
+
+  const [message, setMessage] = useState("Madene hoş geldin, kazmaya başla!");
+
+  // --- KAZMA FONKSİYONU ---
+  const handleDig = () => {
+    const chance = Math.random();
+    let newResources = { ...resources };
+    
+    if (chance > 0.9) { // %10 ihtimalle elmas
+      newResources.diamond += 1;
+      setMessage("💎 İnanılmaz! Bir elmas buldun!");
+    } else if (chance > 0.5) { // %40 ihtimalle altın
+      newResources.gold += 5;
+      setMessage("💰 Güzel! Biraz altın kazandın.");
+    } else { // %50 ihtimalle kömür
+      newResources.coal += 10;
+      setMessage("🪨 Sadece kömür çıktı...");
+    }
+    
+    setResources(newResources);
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-4 bg-gray-100 min-h-screen font-sans">
+      <h1 className="text-3xl font-black text-center mb-6 text-yellow-600 drop-shadow-sm">
+        ⛏️ Gold War
+      </h1>
+
+      {/* Kaynak Paneli */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 mb-4 shadow-xl border-b-4 border-stone-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-bold">💰 Altın: <span className="text-yellow-400">{resources.gold}</span></p>
+          <p className="text-xl font-bold">🪨 Kömür: <span className="text-gray-400">{resources.coal}</span></p>
+          <p className="text-xl font-bold">💎 Elmas: <span className="text-cyan-400">{resources.diamond}</span></p>
+        </div>
+        <p className="text-xs mt-4 text-center italic text-stone-400">{message}</p>
+      </div>
+
+      {/* Aksiyon Butonları */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={handleDig}
+          className="bg-yellow-500 hover:bg-yellow-400 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-yellow-700"
+        >
+          ⛏️ Kaz
+        </button>
+        <button className="bg-gray-800 hover:bg-gray-700 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-gray-950">
+          🛒 Market
+        </button>
+        <button className="bg-green-600 hover:bg-green-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-green-800">
+          🚜 Araçlar
+        </button>
+        <button className="bg-red-600 hover:bg-red-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-red-800">
+          👾 Mağara
+        </button>
+      </div>
+
+      {/* Görevler */}
+      <div className="mt-6 bg-purple-100 rounded-2xl p-4 border-l-4 border-purple-500 shadow-sm">
+        <h2 className="font-bold text-lg mb-2 text-purple-800">🎯 Görev Takibi</h2>
+        <ul className="text-sm text-left text-gray-700 space-y-2">
+          <li className="flex items-center">
+            {resources.coal >= 100 ? "✅" : "⬜"} 100 kömür topla ({resources.coal}/100)
+          </li>
+          <li className="flex items-center">
+            {resources.gold >= 500 ? "✅" : "⬜"} 500 altın bul ({resources.gold}/500)
+          </li>
+        </ul>
+      </div>
+
+      {/* Hikaye */}
+      <div className="mt-4 bg-red-50 rounded-2xl p-4 border border-red-200">
+        <h2 className="font-bold text-lg mb-1 text-red-800">🎬 Hikaye</h2>
+        <p className="text-sm text-gray-600">
+          Derinlerde bir sarsıntı hissettin... Görünüşe göre mağara göründüğünden daha büyük.
+        </p>
+      </div>
+    </div>
+  );
+}import React, { useState } from 'react';
+
+export default function GoldWarGame() {
+  // --- OYUN DURUMU (STATE) ---
+  const [resources, setResources] = useState({
+    gold: 120,
+    coal: 56,
+    diamond: 3
+  });
+
+  const [message, setMessage] = useState("Madene hoş geldin, kazmaya başla!");
+
+  // --- KAZMA FONKSİYONU ---
+  const handleDig = () => {
+    const chance = Math.random();
+    let newResources = { ...resources };
+    
+    if (chance > 0.9) { // %10 ihtimalle elmas
+      newResources.diamond += 1;
+      setMessage("💎 İnanılmaz! Bir elmas buldun!");
+    } else if (chance > 0.5) { // %40 ihtimalle altın
+      newResources.gold += 5;
+      setMessage("💰 Güzel! Biraz altın kazandın.");
+    } else { // %50 ihtimalle kömür
+      newResources.coal += 10;
+      setMessage("🪨 Sadece kömür çıktı...");
+    }
+    
+    setResources(newResources);
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-4 bg-gray-100 min-h-screen font-sans">
+      <h1 className="text-3xl font-black text-center mb-6 text-yellow-600 drop-shadow-sm">
+        ⛏️ Gold War
+      </h1>
+
+      {/* Kaynak Paneli */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 mb-4 shadow-xl border-b-4 border-stone-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-bold">💰 Altın: <span className="text-yellow-400">{resources.gold}</span></p>
+          <p className="text-xl font-bold">🪨 Kömür: <span className="text-gray-400">{resources.coal}</span></p>
+          <p className="text-xl font-bold">💎 Elmas: <span className="text-cyan-400">{resources.diamond}</span></p>
+        </div>
+        <p className="text-xs mt-4 text-center italic text-stone-400">{message}</p>
+      </div>
+
+      {/* Aksiyon Butonları */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={handleDig}
+          className="bg-yellow-500 hover:bg-yellow-400 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-yellow-700"
+        >
+          ⛏️ Kaz
+        </button>
+        <button className="bg-gray-800 hover:bg-gray-700 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-gray-950">
+          🛒 Market
+        </button>
+        <button className="bg-green-600 hover:bg-green-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-green-800">
+          🚜 Araçlar
+        </button>
+        <button className="bg-red-600 hover:bg-red-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-red-800">
+          👾 Mağara
+        </button>
+      </div>
+
+      {/* Görevler */}
+      <div className="mt-6 bg-purple-100 rounded-2xl p-4 border-l-4 border-purple-500 shadow-sm">
+        <h2 className="font-bold text-lg mb-2 text-purple-800">🎯 Görev Takibi</h2>
+        <ul className="text-sm text-left text-gray-700 space-y-2">
+          <li className="flex items-center">
+            {resources.coal >= 100 ? "✅" : "⬜"} 100 kömür topla ({resources.coal}/100)
+          </li>
+          <li className="flex items-center">
+            {resources.gold >= 500 ? "✅" : "⬜"} 500 altın bul ({resources.gold}/500)
+          </li>
+        </ul>
+      </div>
+
+      {/* Hikaye */}
+      <div className="mt-4 bg-red-50 rounded-2xl p-4 border border-red-200">
+        <h2 className="font-bold text-lg mb-1 text-red-800">🎬 Hikaye</h2>
+        <p className="text-sm text-gray-600">
+          Derinlerde bir sarsıntı hissettin... Görünüşe göre mağara göründüğünden daha büyük.
+        </p>
+      </div>
+    </div>
+  );
+}import React, { useState } from 'react';
+
+export default function GoldWarGame() {
+  // --- OYUN DURUMU (STATE) ---
+  const [resources, setResources] = useState({
+    gold: 120,
+    coal: 56,
+    diamond: 3
+  });
+
+  const [message, setMessage] = useState("Madene hoş geldin, kazmaya başla!");
+
+  // --- KAZMA FONKSİYONU ---
+  const handleDig = () => {
+    const chance = Math.random();
+    let newResources = { ...resources };
+    
+    if (chance > 0.9) { // %10 ihtimalle elmas
+      newResources.diamond += 1;
+      setMessage("💎 İnanılmaz! Bir elmas buldun!");
+    } else if (chance > 0.5) { // %40 ihtimalle altın
+      newResources.gold += 5;
+      setMessage("💰 Güzel! Biraz altın kazandın.");
+    } else { // %50 ihtimalle kömür
+      newResources.coal += 10;
+      setMessage("🪨 Sadece kömür çıktı...");
+    }
+    
+    setResources(newResources);
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-4 bg-gray-100 min-h-screen font-sans">
+      <h1 className="text-3xl font-black text-center mb-6 text-yellow-600 drop-shadow-sm">
+        ⛏️ Gold War
+      </h1>
+
+      {/* Kaynak Paneli */}
+      <div className="bg-stone-900 text-white rounded-2xl p-6 mb-4 shadow-xl border-b-4 border-stone-700">
+        <div className="flex justify-between items-center">
+          <p className="text-xl font-bold">💰 Altın: <span className="text-yellow-400">{resources.gold}</span></p>
+          <p className="text-xl font-bold">🪨 Kömür: <span className="text-gray-400">{resources.coal}</span></p>
+          <p className="text-xl font-bold">💎 Elmas: <span className="text-cyan-400">{resources.diamond}</span></p>
+        </div>
+        <p className="text-xs mt-4 text-center italic text-stone-400">{message}</p>
+      </div>
+
+      {/* Aksiyon Butonları */}
+      <div className="grid grid-cols-2 gap-3">
+        <button 
+          onClick={handleDig}
+          className="bg-yellow-500 hover:bg-yellow-400 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-yellow-700"
+        >
+          ⛏️ Kaz
+        </button>
+        <button className="bg-gray-800 hover:bg-gray-700 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-gray-950">
+          🛒 Market
+        </button>
+        <button className="bg-green-600 hover:bg-green-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-green-800">
+          🚜 Araçlar
+        </button>
+        <button className="bg-red-600 hover:bg-red-500 active:scale-95 transition-all rounded-2xl p-6 text-white font-bold shadow-lg border-b-4 border-red-800">
+          👾 Mağara
+        </button>
+      </div>
+
+      {/* Görevler */}
+      <div className="mt-6 bg-purple-100 rounded-2xl p-4 border-l-4 border-purple-500 shadow-sm">
+        <h2 className="font-bold text-lg mb-2 text-purple-800">🎯 Görev Takibi</h2>
+        <ul className="text-sm text-left text-gray-700 space-y-2">
+          <li className="flex items-center">
+            {resources.coal >= 100 ? "✅" : "⬜"} 100 kömür topla ({resources.coal}/100)
+          </li>
+          <li className="flex items-center">
+            {resources.gold >= 500 ? "✅" : "⬜"} 500 altın bul ({resources.gold}/500)
+          </li>
+        </ul>
+      </div>
+
+      {/* Hikaye */}
+      <div className="mt-4 bg-red-50 rounded-2xl p-4 border border-red-200">
+        <h2 className="font-bold text-lg mb-1 text-red-800">🎬 Hikaye</h2>
+        <p className="text-sm text-gray-600">
+          Derinlerde bir sarsıntı hissettin... Görünüşe göre mağara göründüğünden daha büyük.
+        </p>
+      </div>
+    </div>
+  );
+}// Lig belirleme fonksiyonu
+const getLeague = (gold) => {
+  if (gold >= 250000) return { name: "Elmas", color: "text-cyan-500", icon: "💎", bg: "bg-cyan-50" };
+  if (gold >= 50000) return { name: "Altın", color: "text-yellow-600", icon: "🟡", bg: "bg-yellow-50" };
+  if (gold >= 10000) return { name: "Gümüş", color: "text-slate-400", icon: "⚪", bg: "bg-slate-50" };
+  return { name: "Bronz", color: "text-amber-700", icon: "🟤", bg: "bg-amber-50" };
+};
+
+const currentLeague = getLeague(resources.gold);
+
+// Arayüzde Lig Rozeti
+<div className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${currentLeague.bg} border-current mb-4`}>
+  <span className="text-xl">{currentLeague.icon}</span>
+  <span className={`font-black uppercase tracking-widest ${currentLeague.color}`}>
+    {currentLeague.name} LİGİ
+  </span>
+</div>// Lig belirleme fonksiyonu
+const getLeague = (gold) => {
+  if (gold >= 250000) return { name: "Elmas", color: "text-cyan-500", icon: "💎", bg: "bg-cyan-50" };
+  if (gold >= 50000) return { name: "Altın", color: "text-yellow-600", icon: "🟡", bg: "bg-yellow-50" };
+  if (gold >= 10000) return { name: "Gümüş", color: "text-slate-400", icon: "⚪", bg: "bg-slate-50" };
+  return { name: "Bronz", color: "text-amber-700", icon: "🟤", bg: "bg-amber-50" };
+};
+
+const currentLeague = getLeague(resources.gold);
+
+// Arayüzde Lig Rozeti
+<div className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${currentLeague.bg} border-current mb-4`}>
+  <span className="text-xl">{currentLeague.icon}</span>
+  <span className={`font-black uppercase tracking-widest ${currentLeague.color}`}>
+    {currentLeague.name} LİGİ
+  </span>
+</div>// Lig belirleme fonksiyonu
+const getLeague = (gold) => {
+  if (gold >= 250000) return { name: "Elmas", color: "text-cyan-500", icon: "💎", bg: "bg-cyan-50" };
+  if (gold >= 50000) return { name: "Altın", color: "text-yellow-600", icon: "🟡", bg: "bg-yellow-50" };
+  if (gold >= 10000) return { name: "Gümüş", color: "text-slate-400", icon: "⚪", bg: "bg-slate-50" };
+  return { name: "Bronz", color: "text-amber-700", icon: "🟤", bg: "bg-amber-50" };
+};
+
+const currentLeague = getLeague(resources.gold);
+
+// Arayüzde Lig Rozeti
+<div className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${currentLeague.bg} border-current mb-4`}>
+  <span className="text-xl">{currentLeague.icon}</span>
+  <span className={`font-black uppercase tracking-widest ${currentLeague.color}`}>
+    {currentLeague.name} LİGİ
+  </span>
+</div>// Lig belirleme fonksiyonu
+const getLeague = (gold) => {
+  if (gold >= 250000) return { name: "Elmas", color: "text-cyan-500", icon: "💎", bg: "bg-cyan-50" };
+  if (gold >= 50000) return { name: "Altın", color: "text-yellow-600", icon: "🟡", bg: "bg-yellow-50" };
+  if (gold >= 10000) return { name: "Gümüş", color: "text-slate-400", icon: "⚪", bg: "bg-slate-50" };
+  return { name: "Bronz", color: "text-amber-700", icon: "🟤", bg: "bg-amber-50" };
+};
+
+const currentLeague = getLeague(resources.gold);
+
+// Arayüzde Lig Rozeti
+<div className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 ${currentLeague.bg} border-current mb-4`}>
+  <span className="text-xl">{currentLeague.icon}</span>
+  <span className={`font-black uppercase tracking-widest ${currentLeague.color}`}>
+    {currentLeague.name} LİGİ
+  </span>
+</div>// --- GLOBAL EVENT SİSTEMİ ---
+const [globalEvent, setGlobalEvent] = useState({
+  activeTitle: "Dünya Kupası Başladı!",
+  leadingCountry: "🇹🇷 Türkiye",
+  multiplier: 1.5 // Tüm kazançlar x1.5!
+});
+
+// --- SES KONTROL PANELİ ---
+const [settings, setSettings] = useState({
+  musicVolume: 0.5,
+  isMehterEnabled: true
+});
+
+return (
+  <div className="max-w-md mx-auto bg-slate-900 min-h-screen text-white font-sans border-x-4 border-yellow-600">
+    
+    {/* Global Etkinlik Çubuğu */}
+    <div className="bg-gradient-to-r from-red-600 to-red-800 p-2 text-center text-[10px] font-black tracking-widest uppercase">
+      🌍 {globalEvent.activeTitle} | Lider: {globalEvent.leadingCountry} (x{globalEvent.multiplier})
+    </div>
+
+    {/* Mehter Kontrolü */}
+    <div className="flex justify-end p-4">
+      <button 
+        onClick={() => setSettings(s => ({...s, isMehterEnabled: !s.isMehterEnabled}))}
+        className={`p-2 rounded-full border ${settings.isMehterEnabled ? 'border-yellow-500 text-yellow-500' : 'border-gray-500 text-gray-500'}`}
+      >
+        {settings.isMehterEnabled ? "🎵 Mehter Açık" : "🔇 Sessiz"}
+      </button>
+    </div>
+
+    {/* Tank Savaşına Giriş (Yeni Nesil Tasarım) */}
+    <div className="px-6 py-4">
+      <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20 shadow-2xl">
+        <h3 className="text-center font-bold text-cyan-400 mb-4">DÜNYA ARENASI</h3>
+        <div className="flex justify-center items-center gap-8 mb-6">
+          <div className="text-center">
+            <div className="text-5xl drop-shadow-[0_0_15px_rgba(255,255,255,0.5)]">🚜</div>
+            <p className="text-[10px] mt-2 text-gray-400">SENİN TANKIN</p>
+          </div>
+          <div className="text-3xl font-black text-red-500 italic underline">VS</div>
+          <div className="text-center grayscale opacity-50">
+            <div className="text-5xl">🚜</div>
+            <p className="text-[10px] mt-2 text-gray-400">RAKİP ARANIYOR</p>
+          </div>
+        </div>
+        <button className="w-full bg-cyan-600 py-3 rounded-xl font-black hover:bg-cyan-500 transition-all shadow-[0_5px_0_rgb(8,145,178)] active:shadow-none active:translate-y-1">
+          DÜNYAYA MEYDAN OKU ⚔️
+        </button>
+      </div>
+    </div>
+
+  </div>
+);const WorldConquest = () => {
+  const topCountries = [
+    { rank: 1, flag: "🇹🇷", country: "Türkiye", power: "1.2M Gold/hr" },
+    { rank: 2, flag: "🇧🇷", country: "Brazil", power: "980K Gold/hr" },
+    { rank: 3, flag: "🇯🇵", country: "Japan", power: "850K Gold/hr" }
+  ];
+
+  return (
+    <div className="bg-gradient-to-b from-slate-800 to-black p-6 rounded-t-[3rem] mt-10 border-t-4 border-yellow-500">
+      <h2 className="text-center font-black text-xl mb-6 tracking-tighter text-yellow-400">
+        🌍 GLOBAL DOMINATION
+      </h2>
+      <div className="space-y-4">
+        {topCountries.map((c) => (
+          <div key={c.rank} className="flex justify-between items-center bg-white/5 p-3 rounded-2xl border border-white/10">
+            <div className="flex items-center gap-4">
+              <span className="text-lg font-bold text-gray-500">#{c.rank}</span>
+              <span className="text-3xl">{c.flag}</span>
+              <span className="font-bold text-sm uppercase">{c.country}</span>
+            </div>
+            <span className="text-xs font-mono text-yellow-500">{c.power}</span>
+          </div>
+        ))}
+      </div>
+      <p className="text-[10px] text-center mt-6 text-gray-500 uppercase tracking-widest">
+        Ülkeni zirveye taşımak için kazmaya devam et!
+      </p>
+    </div>
+  );
+};
